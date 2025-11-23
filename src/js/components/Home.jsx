@@ -70,20 +70,21 @@ const Home = () => {
             method: "DELETE",
             redirect: "follow"
         };
-        id=id.toString()
-        console.log(id);
-        
+
         try {
             const response = await fetch(`https://playground.4geeks.com/todo/todos/${id}`, requestOptions);
-            const result = await response.json();
-            console.log(id)
-            bringTodo()
+
+            if (!response.ok) {
+                console.error("Error deleting task:", response.status);
+                return;
+            }
+
+            bringTodo(); // Recargar lista
         } catch (error) {
             console.error(error);
-           
-        };
-
+        }
     };
+
 
     return (
         <div className="container">
@@ -105,7 +106,8 @@ const Home = () => {
 
                 {todos.map((item, index) => (
                     <li key={index} className="todos">
-                        {item.label} <i className="fa-solid fa-trash trashButton" onClick={ () => {removeTask(item.id);
+                        {item.label} <i className="fa-solid fa-trash trashButton" onClick={() => {
+                            removeTask(item.id);
 
                         }}></i>
                     </li>
