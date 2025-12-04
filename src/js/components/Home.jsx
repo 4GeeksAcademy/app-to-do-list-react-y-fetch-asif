@@ -31,11 +31,32 @@ const Home = () => {
         try {
             const response = await fetch("https://playground.4geeks.com/todo/users/looper", requestOptions);
             const result = await response.json();
+            if (!response.ok) {
+                await crearUsuario();
+                return
+            }
+
             setTodos(result.todos)
+            console.log(result.todos);
         } catch (error) {
+            
             console.error(error);
         };
     };
+
+    const crearUsuario = async () => {
+        const response = await fetch("https://playground.4geeks.com/todo/users/looper", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+
+        }
+    
+) 
+
+    bringTodo()
+    }
 
     // Metodo POST para Agrega tarea.
     const addTask = async () => {
